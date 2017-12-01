@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Angularjs Thumbnail Gallery</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/thumbnail-gallery.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container" ng-controller="galleryController">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">   
+                <select class="form-control" ng-model="selectedCategory" ng-options="category for category in categories">
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="selectedCategory = undefined">Clear Filter</button>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="photo in photos | filter:{category: selectedCategory}">
+                <a class="thumbnail" data-toggle="modal" data-target="#{{photo.id}}">
+                    <img class="img-responsive" ng-src="{{photo.thumbnail}}" alt="{{photo.description}}">
+                </a>
+                <h3>
+                    <a href="">{{photo.projectName}}</a>
+                </h3>
+                <p>{{photo.description}}</p>
+                <span class="label label-default">{{photo.category}}</span>
+            </div>
+        </div>
+
+        <div ng-repeat="photo in photos">
+            <div class="modal fade" id="{{photo.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">{{photo.projectName}}</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                        <img class="img-responsive" ng-src="{{photo.thumbnail}}" alt="{{photo.description}}">
+                      </div>
+                      <div class="row">
+                        <p>{{photo.description}}</p>
+                        <span class="label label-default">{{photo.category}}</span>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery-1.11.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ui-bootstrap-0.11.0.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
